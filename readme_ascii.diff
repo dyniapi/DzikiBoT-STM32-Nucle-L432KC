@@ -1,0 +1,31 @@
+diff --git a/README.md b/README.md
+--- a/README.md
++++ b/README.md
+@@ -1 +1,26 @@
+-# DzikiBoT-STM32-Nucle-L432KC
++# DzikiBoT-STM32-Nucle-L432KC
++
++Opis:
++- robot mini-sumo na STM32 Nucleo-L432KC
++- 2x TF-Luna (I2C)
++- 2x TCS3472 (I2C)
++- SSD1306 (I2C)
++- 2x ESC na TIM1 (PA8 = prawy, PA11 = lewy)
++
++Moduly:
++- tf_luna_i2c.c/.h
++- tcs3472.c/.h
++- ssd1306.c/.h
++- oled_panel.c/.h
++- motor_bldc.c/.h
++- tank_drive.c/.h
++- debug_uart.c/.h
++- i2c_scan.c/.h
++- config.c/.h
++
++Uzycie:
++1. klonuj repo w GitHub Desktop (Windows 11)
++2. otworz w STM32CubeIDE
++3. skompiluj i wgraj na Nucleo-L432KC
++4. uruchom UART2 115200 i sprawdz odczyty
++5. podlacz OLED i czujniki na I2C1/I2C3

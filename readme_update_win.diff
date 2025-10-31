@@ -1,0 +1,53 @@
+--- a/README.md
++++ b/README.md
+@@ -1 +1,60 @@
+-# DzikiBoT-STM32-Nucle-L432KC
++# DzikiBoT-STM32-Nucle-L432KC
++
++Projekt robota **mini-sumo** na płytce **STM32 Nucleo-L432KC**. Kod jest pisany z założeniem:
++- `main.c` ma być maksymalnie chudy,
++- cała obsługa peryferiów siedzi w osobnych plikach (`tf_luna_i2c.*`, `tcs3472.*`, `ssd1306.*`, `motor_bldc.*`, `tank_drive.*`, `debug_uart.*`, `i2c_scan.*`),
++- łatwo można przełączyć się między trybem **diagnostycznym** (OLED + UART) a późniejszym **trybem walki** (AI / logika minisumo).
++
++## Sprzęt / magistrale
++- MCU: STM32 Nucleo-L432KC
++- I2C prawa strona: I2C1 (PB6/PB7)
++- I2C lewa strona: I2C3 (PC0/PC1)
++- Czujniki dystansu: 2× TF-Luna (I2C, 0x10) – prawa/lewa
++- Czujniki koloru: 2× TCS3472 (I2C, 0x29) – prawa/lewa
++- OLED: SSD1306 (0x3C) na I2C1
++- Napęd: 2× ESC na TIM1
++  - TIM1 CH1 = PA8  -> ESC prawy
++  - TIM1 CH4 = PA11 -> ESC lewy
++  - MOE włączony
++  - start: ESC_ArmNeutral(3000)
++
++## Moduły (stan)
++- tf_luna_i2c.c/.h
++- tcs3472.c/.h
++- ssd1306.c/.h, oled_panel.c/.h
++- motor_bldc.c/.h
++- tank_drive.c/.h
++- debug_uart.c/.h, i2c_scan.c/.h, config.c/.h
++
++## Logika w main.c
++1. HAL_Init() + zegary
++2. MX_GPIO / USART2 / I2C1 / TIM1 / I2C3
++3. DebugUART_Init() + I2C_Scan_All()
++4. Init TF-Luna (R/L), TCS3472 (R/L), OLED
++5. ESC_Init() + ESC_ArmNeutral(3000)
++6. Tank_Init() + DriveTest_Start()
++7. Pętla: Tank_Update(), odczyty, OLED, UART
++
++## Temperatura TF-Luna
++Jeśli cały czas widzisz 25.0°C:
++- to jest temperatura modułu, nie powietrza,
++- albo kolejne ramki temp nie przechodzą kwalifikacji,
++- albo driver trzyma wartość początkową.
++
++## Użycie (Windows 11 + GitHub Desktop)
++1. Clone repo
++2. Build w STM32CubeIDE
++3. Flash na Nucleo-L432KC
++4. UART2 @115200 → podgląd
++5. OLED + czujniki → dane na ekranie
