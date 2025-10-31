@@ -1,0 +1,6 @@
+diff --git a/test-diff-chatgpt.txt b/test-diff-chatgpt.txt
+--- a/test-diff-chatgpt.txt
++++ b/test-diff-chatgpt.txt
+@@ -1 +1 @@
+-TEST-123
++TEST-123 TEST ChatDiff
